@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import Loading from './Utils/Loading/Loading';
+// import GridPattern from './components/magicui/grid-pattern';
+import { cn } from './lib/utils';
+import DotPattern from './components/magicui/dot-pattern';
+// import AnimatedGridPattern from './components/magicui/animated-grid-pattern';
+
+
 
 function Image() {
   const [text, setText] = useState('');
   const [imageBlob, setImageBlob] = useState(null);
   const [loading, setLoading] = useState(false);
   const accessToken = import.meta.env.VITE_HUGGINGFACE_API_KEY;
+  const textareaRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +26,7 @@ function Image() {
       if (result) {
         const image = URL.createObjectURL(result);
         setImageBlob(image);
+        setLoading(false);
       } else {
         console.error('No image data received.');
       }
@@ -55,33 +63,70 @@ function Image() {
     }
   }
 
+  useEffect(() => {
+    // alert("running");
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit(e);
+      }
+    };
+  
+
+    const textarea = textareaRef.current;
+    textarea.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      textarea.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [text]);
+
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 mt-6">
-      <h1 className="text-center text-4xl font-bold mb-6 text-gray-800">Image AI</h1>
+    <>
+
+    <div className="min-h-screen flex flex-col items-center relative">
+      <h1 className="text-center text-4xl font-bold mb-6 mt-6 text-black">Image AI</h1>
+      {/* <AnimatedGridPattern
+        numSquares={50} // Increased number of squares
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "absolute inset-0 h-full z-[-1] w-full", // Occupy viewport width and height, set z-index
+          "skew-y-12"
+        )}
+      /> */}
+      <DotPattern className="absolute top-0 left-0 w-full h-full z-[-1] opacity-60 bg-gray-200" />
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-full max-w-xl">
         <textarea
-          className="border border-gray-300 rounded-lg p-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg"
+          ref={textareaRef}
+          className="border border-gray-300 rounded-lg p-4 w-full focus:border-black border-3 shadow-lg"
           cols="60"
           rows="4"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Enter a prompt"
+          placeholder="Enter a Prompt"
         ></textarea>
-        <button 
+      {
+        loading  
+        ? (<Loading />)
+        :( <button 
           type="submit"
-          className="bg-blue-600 text-white p-3 rounded-lg w-full max-w-sm font-semibold transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+          className="bg-blue-600 text-white p-3 rounded-lg w-full transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 max-w-xs text-lg"
           disabled={loading}
         >
-          {loading ? <FaSpinner className="animate-spin mx-auto" /> : "Generate"}
-        </button>
+          Generate
+        </button>)
+      }
       </form>
-      
-      {text && imageBlob && (
-        <div className="mt-6 p-4 w-full max-w-6xl bg-gray-200 rounded-lg overflow-hidden">
-          <img src={imageBlob} alt="Generated" className="mx-auto w-full object-contain" />
+      {imageBlob && (
+        <div className="mt-6 p-4 w-full max-w-6xl overflow-hidden">
+          <img src={imageBlob} alt="Generated" className="mx-auto w-full h-full" />
         </div>
       )}
     </div>
+    </>
   );
 }
 
