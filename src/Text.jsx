@@ -49,12 +49,12 @@ function Text() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
-      <h1 className="text-center text-4xl font-bold text-gray-800 mt-6 mb-6">Text AI</h1>
-      <DotPattern className="absolute top-0 left-0 w-full h-[400vh] z-[-1] opacity-60 bg-gray-200" />
-      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-full max-w-xl">
+    <div className="flex flex-col items-center min-h-screen">
+      <h1 className="mt-6 mb-6 text-4xl font-bold text-center text-gray-800">Text AI</h1>
+      <DotPattern className="absolute top-0 left-0 w-full h-[400vh] z-[-1] opacity-80 bg-gray-200" />
+      <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-xl gap-4">
         <textarea
-          className="focus:border-black border-3 rounded-lg p-4 w-full shadow-lg"
+          className="w-full p-4 rounded-lg shadow-lg focus:border-black border-3"
           cols="60"
           rows="4"
           value={text}
@@ -67,7 +67,7 @@ function Text() {
         ? (<Loading mt={10}/>)
         :( <button 
           type="submit"
-          className="bg-blue-600 text-white p-3 rounded-lg w-full transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 max-w-xs text-lg"
+          className="w-full max-w-xs p-3 text-lg text-white transition-all duration-300 bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-300"
           disabled={loading}
         >
           Generate
@@ -77,7 +77,7 @@ function Text() {
       </form>
       {
         response && !loading && (
-    <div className="mt-6 p-4 w-full max-w-6xl rounded-lg bg-gray-900 text-white mb-6">
+    <div className="w-full max-w-6xl p-4 mt-6 mb-6 text-white bg-gray-900 rounded-lg">
         <pre className="whitespace-pre-wrap">{response}</pre>
       </div>
         )

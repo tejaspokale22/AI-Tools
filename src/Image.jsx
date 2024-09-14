@@ -84,8 +84,8 @@ function Image() {
   return (
     <>
 
-    <div className="min-h-screen flex flex-col items-center relative">
-      <h1 className="text-center text-4xl font-bold mb-6 mt-6 text-black">Image AI</h1>
+    <div className="relative flex flex-col items-center min-h-screen">
+      <h1 className="mt-6 mb-6 text-4xl font-bold text-center text-black">Image AI</h1>
       {/* <AnimatedGridPattern
         numSquares={50} // Increased number of squares
         maxOpacity={0.1}
@@ -97,11 +97,11 @@ function Image() {
           "skew-y-12"
         )}
       /> */}
-      <DotPattern className="absolute top-0 left-0 w-full h-full z-[-1] opacity-60 bg-gray-200" />
-      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-full max-w-xl">
+      <DotPattern className="absolute top-0 left-0 w-full h-full z-[-1] opacity-80 bg-gray-200" />
+      <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-xl gap-4">
         <textarea
           ref={textareaRef}
-          className="border border-gray-300 rounded-lg p-4 w-full focus:border-black border-3 shadow-lg"
+          className="w-full p-4 border border-gray-300 rounded-lg shadow-lg focus:border-black border-3"
           cols="60"
           rows="4"
           value={text}
@@ -113,7 +113,7 @@ function Image() {
         ? (<Loading />)
         :( <button 
           type="submit"
-          className="bg-blue-600 text-white p-3 rounded-lg w-full transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 max-w-xs text-lg"
+          className="w-full max-w-xs p-3 text-lg text-white transition-all duration-300 bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-300"
           disabled={loading}
         >
           Generate
@@ -121,8 +121,8 @@ function Image() {
       }
       </form>
       {imageBlob && (
-        <div className="mt-6 p-4 w-full max-w-6xl overflow-hidden">
-          <img src={imageBlob} alt="Generated" className="mx-auto w-full h-full" />
+        <div className="w-full max-w-6xl p-4 mt-6 overflow-hidden">
+          <img src={imageBlob} alt="Generated" className="w-full h-full mx-auto" />
         </div>
       )}
     </div>

@@ -7,8 +7,8 @@ function NavBar() {
   
   return (
     <nav className="bg-gray-900 p-3 shadow-lg font-['Poppins']">
-      <div className="container mx-auto flex justify-center">
-        <div className="space-x-10 flex items-center relative">
+      <div className="container flex justify-center mx-auto">
+        <div className="relative flex items-center space-x-10">
           <Link
             to="/"
             className={`text-gray-300 hover:text-white transition-colors duration-300 relative text-md ${
