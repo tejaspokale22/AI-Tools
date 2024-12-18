@@ -19,10 +19,10 @@ $box-wrapper-margin: calc((100% - #{$box-wrapper-height}) / 2)
 .wrapper {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 54%;
   margin: $w-margin;
-  width: $w-size;
-  height: $w-size;
+  width: 150px;
+  height: 150px;
   background-color: transparent;
   border: none;
   // -webkit-user-select: none;

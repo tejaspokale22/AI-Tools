@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Loading from './Utils/Loading/Loading';
-// import GridPattern from './components/magicui/grid-pattern';
-import { cn } from './lib/utils';
 import DotPattern from './components/magicui/dot-pattern';
-// import AnimatedGridPattern from './components/magicui/animated-grid-pattern';
-
-
 
 function Image() {
   const [text, setText] = useState('');
@@ -64,7 +59,6 @@ function Image() {
   }
 
   useEffect(() => {
-    // alert("running");
     const handleKeyDown = (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -72,7 +66,6 @@ function Image() {
       }
     };
   
-
     const textarea = textareaRef.current;
     textarea.addEventListener('keydown', handleKeyDown);
 
@@ -83,49 +76,40 @@ function Image() {
 
   return (
     <>
+      <div className="relative flex flex-col items-center min-h-screen px-4 py-8 md:px-8 lg:px-16">
+        <h1 className="mb-6 text-xl font-semibold text-center text-black md:text-3xl lg:text-3xl">Text to Image AI</h1>
+        <DotPattern className="absolute top-0 left-0 w-full h-full z-[-1] opacity-80 bg-gray-200" />
+        
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-3xl gap-4">
+          <textarea
+            ref={textareaRef}
+            className="w-full p-4 text-base border border-gray-300 rounded-lg shadow-lg focus:border-black focus:ring-2 focus:ring-blue-400 sm:text-lg lg:text-xl"
+            cols="60"
+            rows="4"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Enter a prompt"
+          ></textarea>
+          
+          {loading ? (
+            <Loading />
+          ) : (
+            <button
+              type="submit"
+              className="w-full max-w-xs p-2 text-lg text-white transition-all duration-300 bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:text-xl lg:text-xl"
+              disabled={loading}
+            >
+              Generate
+            </button>
+          )}
+        </form>
 
-    <div className="relative flex flex-col items-center min-h-screen">
-      <h1 className="mt-6 mb-6 text-4xl font-bold text-center text-black">Image AI</h1>
-      {/* <AnimatedGridPattern
-        numSquares={50} // Increased number of squares
-        maxOpacity={0.1}
-        duration={3}
-        repeatDelay={1}
-        className={cn(
-          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-          "absolute inset-0 h-full z-[-1] w-full", // Occupy viewport width and height, set z-index
-          "skew-y-12"
+        {imageBlob && (
+          <div className="w-full max-w-6xl p-4 mt-6 overflow-hidden">
+            <img src={imageBlob} alt="Generated" className="w-full h-auto mx-auto rounded-lg shadow-lg" />
+          </div>
         )}
-      /> */}
-      <DotPattern className="absolute top-0 left-0 w-full h-full z-[-1] opacity-80 bg-gray-200" />
-      <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-xl gap-4">
-        <textarea
-          ref={textareaRef}
-          className="w-full p-4 border border-gray-300 rounded-lg shadow-lg focus:border-black border-3"
-          cols="60"
-          rows="4"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Enter a Prompt"
-        ></textarea>
-      {
-        loading  
-        ? (<Loading />)
-        :( <button 
-          type="submit"
-          className="w-full max-w-xs p-3 text-lg text-white transition-all duration-300 bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-300"
-          disabled={loading}
-        >
-          Generate
-        </button>)
-      }
-      </form>
-      {imageBlob && (
-        <div className="w-full max-w-6xl p-4 mt-6 overflow-hidden">
-          <img src={imageBlob} alt="Generated" className="w-full h-full mx-auto" />
-        </div>
-      )}
-    </div>
+      </div>
     </>
   );
 }
